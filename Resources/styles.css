@@ -86,7 +86,7 @@ body {
 
 
 
-.btnplus, .btnminus, .btnmul, .btndiv, .btnper {
+.btnplus, .btnminus, .btnmul, .btndiv, .btnper, .btnpow {
   background-color: #15173d;
   color: whitesmoke;
   border-radius: 25px;
