@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 body {
   margin: 0;
@@ -116,7 +117,7 @@ body {
     font-size: 1.2em;
   }
   .btn_div {
-    aspect-ratio: 1
+    aspect-ratio: 1;
     min-height: 40px;
   }
   .equal {
@@ -170,6 +171,12 @@ body {
   background-color: #fff;
 }
 
+.hidden{
+    display: none;
+}
 
+.display_text{
+    font-family: "Roboto", sans-serif;
+}
 
 
