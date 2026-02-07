@@ -37,12 +37,16 @@ body {
   color: whitesmoke;
   grid-column: span 6;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: flex-end;
   padding: 10px;
   font-size: 2em;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   box-sizing: border-box; 
+}
+
+.display_operator{
+  color: #e491c9;
 }
 
 .btn_div {
