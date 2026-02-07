@@ -1,93 +1,88 @@
 const display = document.getElementById("display_text");
-var calculations = [];
+const operatorDisplay=document.getElementById("display_operator");
+var digits = [];
+var operables = [];
 var firstText =  true;
-var currentValue;
-var displayValue;
-
-
-
+var newEntry;
+var resultDisplayed = false;
 
 
 function displayEntry(n){
-    if (firstText){
-        display.innerHTML = n
-        firstText = false
-    } else {
-        display.innerHTML = (display.innerHTML*10)+n;
-        
+    if(resultDisplayed){
+        display.innerHTML = n;
+        resultDisplayed = false;
+        firstText = false;
+        return;
     }
-    displayValue = Number(display.innerHTML);
     
+    if (firstText){
+        display.innerHTML = n;
+        firstText = false; 
+    } else {
+        display.innerHTML = (display.innerHTML*10)+n;  
+    } 
 }
 
-function radian(n){
-    return (n*Math.PI)/180;
-}
+
 
 function calculateFunction(i,j,k){
-    if (k == "+"){
-        return i + j;
-    } else if ( k == "-"){
-        return i-j;
-    } else if(k == "*"){
-        return i*j;
-    } else if(k == "/"){
-        return i/j;
-    } else if(k == "%"){
-        return (i*100)/j;
-    } else if(k == "^"){
-        return Math.pow(i,j);
-    } else if(k == "sin"){
-        return Math.sin((i*Math.PI)/180);
-    } else if(k == "cos"){
-        return Math.cos((i*Math.PI)/180);
-    } else if (k == "tan"){
-        return Math.tan((i*Math.PI)/180);
-    }
+    if (k == "+") return i + j;
+    if (k == "-") return i - j;
+    if (k == "*") return i * j;
+    if (k == "/") return j === 0 ? "Error" : i / j;
+    if (k == "%") return i / 100;
+    if (k == "^") return Math.pow(i,j);
+    if (k == "sin") return Math.sin(i * Math.PI / 180);
+    if (k == "cos") return Math.cos(i * Math.PI / 180);
+    if (k == "tan") return Math.tan(i * Math.PI / 180);
+
 }
 
-function showOperator(k){
-    if (k == "+"){
-        return "+";
-    } else if ( k == "-"){
-        return "-";
-    } else if(k == "*"){
-        return "×";
-    } else if(k == "/"){
-        return "÷";
-    } else if(k == "%"){
-        return "%";
-    } else if(k == "^"){
-        return "x<sup>y</sup>";
-    } else if(k == "sin"){
-        return "sin";
-    } else if(k == "cos"){
-        return "cos";
-    } else if (k == "tan"){
-        return "tan";
-    }
+function showOperator(n){
+    if (n == "*") return "×";
+    if (n == "/") return "÷";
+    if (n == "^") return "^";
+    return n;
 }
+
 
 
 function operatorClicked(n){
-    document.getElementById("display_operator").innerHTML = showOperator(n);
-    calculations.push({
-        value: Number(display.innerHTML),
-        operator: n,
-    });
-    display.innerHTML="";
-    if(calculations.length > 1){
-        var newValue = calculateFunction(calculations[calculations.length-2].value,calculations[calculations.length-1].value,n);
-        console.log(newValue)
-        display.innerHTML= newValue;
-        calculateFunction(n);
+    if (display.innerHTML === "" && n!== "="){
+        return;
     }
+    newEntry = Number(display.innerHTML);
+    digits.push(newEntry);
+    operables.push(n);
+    operatorDisplay.innerHTML = showOperator(n);
+    
+    display.innerHTML = "";
+    if (n == "="){
+        if(digits.length == 0){
+        display.innerHTML = "";
+    } else if (digits.length == 1){
+        display.innerHTML = digits[0].value;
+    } else {
+        display.innerHTML = calculateFunction(digits[digits.length-2], digits[digits.length-1], operables[operables.length-1])
+    }
+    };  
+    if(digits.length == 0){
+        display.innerHTML = "";
+    } else if (digits.length == 1){
+        display.innerHTML = digits[digits.length-1];
+    } else {
+        display.innerHTML = calculateFunction(digits[digits.length-2],digits[digits.length-1],operables[operables.length-2]);
+    }
+        
     firstText = true;
-    console.log(calculations)
+
+
+
+    
 }
 
-function SpecialClicked(n){
-    alert(n);
+function backSpaceEntered(){
+    display.innerHTML = Math.floor(Number(display.innerHTML)/10);
 }
 
 function animateFunction(n){
@@ -97,14 +92,20 @@ function animateFunction(n){
 
 
 function RegisteringValues(event){
-    if (event == "+" || event == "-" || event == "*" || event == "/" || event == "%" || event == "^" || event == "sin" || event == "cos" || event == "tan"){
+    //OPperators
+    
+    if (event == "+" || event == "-" || event == "*" || event == "/" || event == "%" || event == "^" || event == "sin" || event == "cos" || event == "tan" || event == "Enter" || event == "="){
         operatorClicked(event)
         animateFunction(event)
         console.log(event)
     };
+
+    //numbers - Entry
     if(event == 1 || event == 2 || event == 3 || event == 4 || event == 5 || event == 6 || event == 7 || event == 8 || event == 9 || event == 0){
         displayEntry(Number(event))
     };
+
+    // times 100 or 1000
     if(event == "double"){
         displayEntry(0);
         displayEntry(0);
@@ -114,9 +115,26 @@ function RegisteringValues(event){
         displayEntry(0);
         displayEntry(0);
     };
-    if(event == "BackSpace" || event == "Clear" || event == "Enter" || event == "."){
-        SpecialClicked();
+
+    // Clear Operator
+    if(event == "Clear"){
+        operables = [];
+        digits = [];
+        display.innerHTML = "";
+        operatorDisplay.innerHTML = "";
+        firstText = true;
+       
     };
+
+    if(event == "."){
+        console.log(".")
+    }
+
+
+    //BackSpace
+    if(event == "Backspace"){
+        backSpaceEntered();
+    } 
 
 }
 

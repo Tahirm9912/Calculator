@@ -83,7 +83,7 @@ body {
 
 
 
-.btn_div:hover {
+.btn_div:hover .animate{
   transform: scale(1.1);
 }
 
@@ -181,6 +181,7 @@ body {
 
 .display_text{
     font-family: "Roboto", sans-serif;
+    
 }
 
 
